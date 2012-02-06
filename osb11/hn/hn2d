@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+
+# This is a filter that takes in HTML (presumably the HN front page)
+# on stdin and spits out (to stdout) a list of the domains which appeared
+# in the links.
+
+import sys
+import re
+from BeautifulSoup import BeautifulSoup
+
+domain = re.compile("http(s)?://(www\.)?([^\/\?\#]+)")
+
+doc = BeautifulSoup(sys.stdin.read())
+table_cells = doc.findAll('td', 'title')
+
+links = [td.a['href'] for td in table_cells if len(td.attrs) == 1 and td.a.text.lower() != "more"]
+
+domains = []
+try:
+    domains = [domain.match(x).groups()[-1] for x in links if domain.match(x)]
+except AttributeError as e:
+    print e
+    pass # Probably some crap input. Keep on chugging.
+    
+for d in domains:
+    print d

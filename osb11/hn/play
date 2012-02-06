@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Naive first approach. Too slow and WAY too much info at once.
+#for f in data/*.html; do 
+#    cat $f | ./hn2d  | ./hngraph > hnmovie.dot
+#    sleep 5;
+#done
+
+# Improvements: Faster update and only shows the top 5 domains at any
+# given time. Can't go *too* fast or Graphviz starts missing changes.
+for f in data/*.html; do
+    cat $f | ./hn2d | head -5 | ./hngraph > hnmovie.dot;     
+    sleep 2; 
+done

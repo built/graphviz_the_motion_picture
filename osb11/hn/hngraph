@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+
+# This accepts a list of domains on stdin and outputs
+# a DOT graph to stdout, showing all of the domains
+# tied to Hacker News.
+
+import fileinput
+
+print "graph HackerNews {"
+print " HN[shape=none]"
+
+colormap = {
+	"com" : "blue",
+	"org" : "red",
+	"au" : "gray",
+	"it" : "purple",
+	"net": "green"
+	}
+
+for line in fileinput.input():
+	nodename = line.rstrip('\n')
+	tld = nodename.split(".")[-1]
+
+	color = "black"
+
+	if tld in colormap:
+		color = colormap[tld]
+
+	print '"%s"[shape=none, fontname=Helvetica, fontcolor=%s];' % (nodename, color)
+	print 'HN -- "%s";' % nodename
+print "}"
