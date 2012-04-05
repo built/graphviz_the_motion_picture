@@ -34,7 +34,7 @@ def naive_graph():
 
 def talk_graph():
     """
-    De-emphasize titles while keeping an entity to represent the proposed talk itself.
+    De-emphasize all the things!
     """
     talk_number = 0
     print "graph{"
